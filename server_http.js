@@ -15,6 +15,14 @@ const {getBase58CheckAddress} = require('tron-http-tools/utils/crypto');
 
 const assetCache = {};
 
+function hex2a(hexx) {
+    const hex = hexx.toString();//force conversion
+    let str = '';
+    for (let i = 0; (i < hex.length && hex.substr(i, 2) !== '00'); i += 2)
+        str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+    return str;
+}
+
 async function getAsset(id) {
     if (assetCache[id])
         return assetCache[id];
@@ -22,7 +30,10 @@ async function getAsset(id) {
     console.log('fetching asset list');
     const assetList = await axios.get('https://api.trongrid.io/walletsolidity/getassetissuelist').then(x => x.data);
     assetList.assetIssue.forEach(a => {
-        assetCache[a.id] = a;
+        assetCache[a.id] = {
+            ...a,
+            name: hex2a(a.name)
+        };
     });
 
     return assetCache[id];
@@ -277,11 +288,12 @@ module.exports = class {
     async getNewTokens(address) {
         const account = await axios.get('https://api.trongrid.io/walletsolidity/getaccount?address=' + tronWeb.address.toHex(address)).then(x => x.data);
         const tokens = {};
-        if(account && account.assetV2){
+        if (account && account.assetV2) {
             for (let i = 0; i < account.assetV2.length; i++) {
                 const a = account.assetV2[i];
                 const asset = await getAsset(a.key);
                 tokens[a.key] = asset;
+                tokens[a.key].amount = a.value;
             }
             return tokens;
         }
