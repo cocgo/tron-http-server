@@ -292,8 +292,10 @@ module.exports = class {
             for (let i = 0; i < account.assetV2.length; i++) {
                 const a = account.assetV2[i];
                 const asset = await getAsset(a.key);
-                tokens[a.key] = asset;
-                tokens[a.key].amount = a.value;
+                tokens[a.key] = {
+                    ...asset,
+                    amount: a.value
+                };
             }
             return tokens;
         }
