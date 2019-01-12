@@ -286,7 +286,7 @@ module.exports = class {
     }
 
     async getNewTokens(address) {
-        const account = await axios.get('https://api.trongrid.io/walletsolidity/getaccount?address=' + tronWeb.address.toHex(address)).then(x => x.data);
+        const account = await axios.get('https://api.trongrid.io/wallet/getaccount?address=' + tronWeb.address.toHex(address)).then(x => x.data);
         const tokens = {};
         if (account && account.assetV2) {
             for (let i = 0; i < account.assetV2.length; i++) {
