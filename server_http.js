@@ -3,13 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const tools = require("tron-http-tools");
 const RpcClient = require("./rpcclient");
-const TronWeb = require('tronweb');
 
-const tronWeb = new TronWeb(
-    'https://api.trongrid.io',
-    'https://api.trongrid.io',
-    'https://api.trongrid.io'
-);
 
 const {getBase58CheckAddress} = require('tron-http-tools/utils/crypto');
 
@@ -286,19 +280,20 @@ module.exports = class {
     }
 
     async getNewTokens(address) {
-        const account = await axios.get('https://api.trongrid.io/wallet/getaccount?address=' + tronWeb.address.toHex(address)).then(x => x.data);
-        const tokens = {};
-        if (account && account.assetV2) {
-            for (let i = 0; i < account.assetV2.length; i++) {
-                const a = account.assetV2[i];
-                const asset = await getAsset(a.key);
-                tokens[a.key] = {
-                    ...asset,
-                    amount: a.value
-                };
-            }
-            return tokens;
-        }
+        // const account = await axios.get('https://api.trongrid.io/wallet/getaccount?address=' + tronWeb.address.toHex(address)).then(x => x.data);
+        // const tokens = {};
+        // if (account && account.assetV2) {
+        //     for (let i = 0; i < account.assetV2.length; i++) {
+        //         const a = account.assetV2[i];
+        //         const asset = await getAsset(a.key);
+        //         tokens[a.key] = {
+        //             ...asset,
+        //             amount: a.value
+        //         };
+        //     }
+        //     return tokens;
+        // }
+        return '';
     }
 
     async getFullAccount(address) {
