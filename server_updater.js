@@ -113,6 +113,7 @@ module.exports = class{
                                 let ownerAddress = getBase58CheckAddress(Array.from(contr.getOwnerAddress()));
                                 let toAddress = getBase58CheckAddress(Array.from(contr.getToAddress()));
                                 let amount = contr.getAmount();
+                                let remark = contr.getRemark();
 
                                 newContracts.push({
                                     block_id : i,
@@ -123,7 +124,8 @@ module.exports = class{
                                     amount : amount,
                                     timestamp : timestamp,
                                     txsize : txsize,
-                                    txhash : hash
+                                    txhash : hash,
+                                    remark: remark
                                 });
                             }
                                 break;
@@ -134,6 +136,7 @@ module.exports = class{
                                 let toAddress = getBase58CheckAddress(Array.from(contr.getToAddress()));
                                 let assetName = String.fromCharCode.apply(null, contr.getAssetName());
                                 let amount = contr.getAmount();
+                                let remark = contr.getRemark();
 
                                 newContracts.push({
                                     block_id : i,
@@ -145,7 +148,8 @@ module.exports = class{
                                     amount : amount,
                                     timestamp : timestamp,
                                     txsize : txsize,
-                                    txhash : hash
+                                    txhash : hash,
+                                    remark: remark
                                 });
                             }
                                 break;
