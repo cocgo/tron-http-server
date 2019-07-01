@@ -51,7 +51,7 @@ module.exports = class {
         app.use(bodyParser.urlencoded({extended: true}));
         app.use(connect_datadog);
 
-        app.get('/', async (req, res) => {
+        app.get('/wapi/', async (req, res) => {
             res.set({'Content-Type': 'application/json; charset=utf-8'});
 
             res.header("Access-Control-Allow-Origin", "*");
@@ -133,7 +133,7 @@ module.exports = class {
          * ***************** GRPC ********************
          ********************************************/
 
-        app.get('/grpc/getLastBlock', async (req, res) => {
+        app.get('/wapi/grpc/getLastBlock', async (req, res) => {
             try {
                 let blockProto = await rpc.getNowBlock().catch(x => null);
                 let serializedBase64 = tools.utils.base64EncodeToString(blockProto.serializeBinary());
@@ -143,7 +143,7 @@ module.exports = class {
             }
         });
 
-        app.get('/grpc/listWitnesses', async (req, res) => {
+        app.get('/wapi/grpc/listWitnesses', async (req, res) => {
             try {
                 let witnessesProto = await rpc.listWitnesses().catch(x => null);
                 let serializedBase64 = tools.utils.base64EncodeToString(witnessesProto.serializeBinary());
@@ -153,7 +153,7 @@ module.exports = class {
             }
         });
 
-        app.get('/grpc/getAccount', async (req, res) => {
+        app.get('/wapi/grpc/getAccount', async (req, res) => {
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Headers", "X-Requested-With");
             try {
@@ -165,7 +165,7 @@ module.exports = class {
             }
         });
 
-        app.get('/grpc/getTransactionsToThis', async (req, res) => {
+        app.get('/wapi/grpc/getTransactionsToThis', async (req, res) => {
             try {
                 let transactionsRaw = await rpc.getTransactionsToThis(req.query.address).catch(x => null);
                 let serializedBase64 = tools.utils.base64EncodeToString(transactionsRaw.serializeBinary());
@@ -175,7 +175,7 @@ module.exports = class {
             }
         });
 
-        app.get('/grpc/getTransactionsFromThis', async (req, res) => {
+        app.get('/wapi/grpc/getTransactionsFromThis', async (req, res) => {
             try {
                 let transactionsRaw = await rpc.getTransactionsFromThis(req.query.address).catch(x => null);
                 let serializedBase64 = tools.utils.base64EncodeToString(transactionsRaw.serializeBinary());
@@ -185,7 +185,7 @@ module.exports = class {
             }
         });
 
-        app.post('/grpc/broadcastTransaction', async (req, res) => {
+        app.post('/wapi/grpc/broadcastTransaction', async (req, res) => {
             try {
                 let responseRaw = await rpc.broadcastBase64EncodedTransaction(req.body.transaction).catch(x => null);
                 let serializedBase64 = tools.utils.base64EncodeToString(responseRaw.serializeBinary());
@@ -199,7 +199,7 @@ module.exports = class {
          ************ API USING OUR DB ***************
          ********************************************/
 
-        app.get('/witnesses', async (req, res) => {
+        app.get('/wapi/witnesses', async (req, res) => {
             try {
                 let witnessesProto = await rpc.listWitnesses().catch(x => null);
                 let output = [];
@@ -219,26 +219,26 @@ module.exports = class {
             }
         });
 
-        app.get('/getLastBlock', async (req, res) => {
+        app.get('/wapi/getLastBlock', async (req, res) => {
             let lastBlock = await this.db.getLastBlock().catch(x => null);
             res.send(lastBlock);
         });
 
-        app.get('/getAccount', async (req, res) => {
+        app.get('/wapi/getAccount', async (req, res) => {
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Headers", "X-Requested-With");
             let account = await this.getFullAccount(req.query.address).catch(x => null);
             res.send(account);
         });
 
-        app.get('/getAccountByName', async (req, res) => {
+        app.get('/wapi/getAccountByName', async (req, res) => {
             let account = await this.db.getAccountByName(req.query.name).catch(x => null);
             if (account == null)
                 res.status(404);
             res.send(account);
         });
 
-        app.get('/getAccounts', async (req, res) => {
+        app.get('/wapi/getAccounts', async (req, res) => {
             let addresses = req.query.addresses.split(",");
             let accounts = {};
             for (let i = 0; i < addresses.length; i++) {
@@ -247,7 +247,7 @@ module.exports = class {
             res.send(accounts);
         });
 
-        app.get('/getTransactionsRelatedToThis', async (req, res) => {
+        app.get('/wapi/getTransactionsRelatedToThis', async (req, res) => {
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Headers", "X-Requested-With");
             let transactions = await this.db.getContractsRelatedToThis(req.query.address).catch(x => null);
@@ -270,7 +270,7 @@ module.exports = class {
             res.send(transactions);
         });
 
-        app.get('/getTokens', async (req, res) => {
+        app.get('/wapi/getTokens', async (req, res) => {
             let tokens = await this.db.getTokens(req.query.buys).catch(x => null);
             res.send(tokens);
         });
