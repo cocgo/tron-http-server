@@ -60,7 +60,9 @@ module.exports = class{
             let blockHash = tools.utils.uint8ToBase64(tools.blocks.getBlockHash(block));
             let blockParentHash = blockHeader.rawData.parenthash;
             let transactionsList = block.getTransactionsList();
-            console.log('----------block',blockHeader, block, transactionsList)
+            console.log('----------block blockHeader',blockHeader)
+            console.log('----------block block', block )
+            console.log('----------block transactionsList',transactionsList)
             // let txID = block.getTransactionsList().toObject().txID;
 
             let newBlock = {
