@@ -60,6 +60,7 @@ module.exports = class{
             let blockHash = tools.utils.uint8ToBase64(tools.blocks.getBlockHash(block));
             let blockParentHash = blockHeader.rawData.parenthash;
             let transactionsList = block.getTransactionsList();
+            let txID = block.getTransactionsList().toObject().txID;
 
             let newBlock = {
                 block_id : i,
@@ -125,7 +126,8 @@ module.exports = class{
                                     timestamp : timestamp,
                                     txsize : txsize,
                                     txhash : hash,
-                                    remark: remark
+                                    remark: remark,
+                                    txID: txID
                                 });
                             }
                                 break;
@@ -149,7 +151,8 @@ module.exports = class{
                                     timestamp : timestamp,
                                     txsize : txsize,
                                     txhash : hash,
-                                    remark: remark
+                                    remark: remark,
+                                    txID: txID
                                 });
                             }
                                 break;
