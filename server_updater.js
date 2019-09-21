@@ -77,6 +77,7 @@ module.exports = class{
             if(transactionsList.length > 0){
                 for(let j = 0;j<transactionsList.length;j++){
                     let transaction = transactionsList[j];
+                    console.log('----------block2 transaction', transaction )
                     let timestamp = parseInt(block.getBlockHeader().getRawData().getTimestamp());
                     let serialized = transaction.serializeBinary();
                     let hash = buf2hex(SHA256(serialized));
