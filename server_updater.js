@@ -41,7 +41,7 @@ module.exports = class{
         let url = this.furl ;
         console.log('url:', url);
         await axios.post(this.furl,{num:num}).then((response)=>{
-            console.log('---------esponse', response.data);
+            console.log('---------esponse', JSON.stringify(response.data));
         })
         .catch((error)=>{
             // console.log('getTxID error:',error);
