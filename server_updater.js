@@ -30,7 +30,7 @@ module.exports = class{
         this.rpc = new RpcClient(config);
         this.alertCallbacks = alertCallbacks;
 
-        this.furl = `${config.fullnode.host}:${config.fullnode.port}`
+        this.furl = `http://${config.fullnode.host}:${config.fullnode.port}`
         
         this.main();
     }
