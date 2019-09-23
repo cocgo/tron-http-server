@@ -44,7 +44,6 @@ module.exports = class{
                 resolve(response.data);
             })
             .catch((error)=>{
-                // console.log('get txID error:',error);
                 console.log(url, 'get txID error:', num);
                 reject('txID error');
             })
@@ -103,7 +102,7 @@ module.exports = class{
                     if(blockJsonData.transactions){
                         txID = blockJsonData.transactions[j].txID;
                     }
-                    console.log('---txID', txID);
+                    console.log('---txID', txID, 'In Height:', i);
                     for (let c = 0; c < contracts.length; c++) {
                         let contract = contracts[c];
                         let type = contract.getType();
