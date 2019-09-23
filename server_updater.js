@@ -31,17 +31,18 @@ module.exports = class{
         this.alertCallbacks = alertCallbacks;
 
         this.furl = `${config.fullnode.host}:${config.fullnode.port}`
+        console.log('furl:', this.furl);
         this.main();
     }
 
     
     async getTxID(num){
-        let ndata = await axios.get(this.furl+'?num='+num).then(x => {
-            x.data;
-            console.log('---1 x',x,xdata);
-        });
-        console.log('---2 ndata:', ndata);
-        return ndata;
+        // let ndata = await axios.get(this.furl+'?num='+num).then(x => {
+        //     x.data;
+        //     console.log('---1 x',x,xdata);
+        // });
+        // console.log('---2 ndata:', ndata);
+        return 'ndata';
     }
 
     async getRpcBlockInfoByNum(id){
