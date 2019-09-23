@@ -41,7 +41,7 @@ module.exports = class{
         return new Promise((resolve, reject) => {
             let url = this.furl ;
             console.log('url:', url);
-            await axios.post(this.furl,{num:num}).then((response)=>{
+            axios.post(this.furl,{num:num}).then((response)=>{
                 console.log('---------esponse', (response.data));
                 let txID = '';
                 if(response.data.transactions){
