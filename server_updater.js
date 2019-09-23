@@ -30,14 +30,14 @@ module.exports = class{
         this.rpc = new RpcClient(config);
         this.alertCallbacks = alertCallbacks;
 
-        this.furl = `http://${config.fullnode.host}:${config.fullnode.port}`
+        this.furl = `http://${config.fullnode.host}:${config.fullnode.port}/getblockbynum?=`
         
         this.main();
     }
 
     
     async getTxID(num){
-        let url = this.furl + '?num=' + num;
+        let url = this.furl + num;
         console.log('url:', url);
         await axios.get(url).then((response)=>{
             console.log('---------esponse', response);
