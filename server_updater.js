@@ -41,18 +41,18 @@ module.exports = class{
         let url = this.furl ;
         console.log('url:', url);
         await axios.post(this.furl,{num:num}).then((response)=>{
-            console.log('---------esponse', JSON.stringify(response.data));
+            console.log('---------esponse', (response.data));
+            if(response.data.transactions){
+                return response.data.transactions.txID;
+            }else{
+                return '';
+            }
         })
         .catch((error)=>{
             // console.log('getTxID error:',error);
             console.log('getTxID error.');
+            return '';
         })
-        // let ndata = await axios.get(this.furl+'?num='+num).then(x => {
-        //     x.data;
-        //     console.log('---1 x',x,xdata);
-        // });
-        // console.log('---2 ndata:', ndata);
-        return 'ndata';
     }
 
     async getRpcBlockInfoByNum(id){
@@ -83,9 +83,8 @@ module.exports = class{
             let blockHash = tools.utils.uint8ToBase64(tools.blocks.getBlockHash(block));
             let blockParentHash = blockHeader.rawData.parenthash;
             let transactionsList = block.getTransactionsList();
-            let ndata = await this.getTxID(i);
-            console.log('---3', ndata);
-            // let txID = block.getTransactionsList().toObject().txID;
+            let txID = await this.getTxID(i);
+            console.log('---3', txID);
 
             let newBlock = {
                 block_id : i,
@@ -152,7 +151,7 @@ module.exports = class{
                                     txsize : txsize,
                                     txhash : hash,
                                     remark: remark,
-                                    // txID: txID
+                                    txID: txID
                                 });
                             }
                                 break;
@@ -177,7 +176,7 @@ module.exports = class{
                                     txsize : txsize,
                                     txhash : hash,
                                     remark: remark,
-                                    // txID: txID
+                                    txID: txID
                                 });
                             }
                                 break;
