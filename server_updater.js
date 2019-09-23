@@ -1,6 +1,7 @@
 const RpcClient = require("./rpcclient");
 const {Decimal} = require('decimal.js');
 const tools = require("tron-http-tools");
+const axios = require("axios");
 
 const {WitnessCreateContract, UpdateAssetContract, UnfreezeAssetContract, VoteAssetContract, UnfreezeBalanceContract, WithdrawBalanceContract, WitnessUpdateContract, TransferContract, TransferAssetContract, VoteWitnessContract, AssetIssueContract, FreezeBalanceContract, ParticipateAssetIssueContract, AccountUpdateContract} = require("tron-http-tools/protocol/core/Contract_pb");
 const {Transaction} = require("tron-http-tools/protocol/core/Tron_pb");
@@ -29,7 +30,18 @@ module.exports = class{
         this.rpc = new RpcClient(config);
         this.alertCallbacks = alertCallbacks;
 
+        this.furl = `${config.fullnode.host}:${config.fullnode.port}`
         this.main();
+    }
+
+    
+    async getTxID(num){
+        let ndata = await axios.get(this.furl+'?num='+num).then(x => {
+            x.data;
+            console.log('---1 x',x,xdata);
+        });
+        console.log('---2 ndata:', ndata);
+        return ndata;
     }
 
     async getRpcBlockInfoByNum(id){
@@ -60,6 +72,8 @@ module.exports = class{
             let blockHash = tools.utils.uint8ToBase64(tools.blocks.getBlockHash(block));
             let blockParentHash = blockHeader.rawData.parenthash;
             let transactionsList = block.getTransactionsList();
+            let ndata = await this.getTxID(i);
+            console.log('---3', ndata);
             // let txID = block.getTransactionsList().toObject().txID;
 
             let newBlock = {
