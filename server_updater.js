@@ -30,7 +30,8 @@ module.exports = class{
         this.rpc = new RpcClient(config);
         this.alertCallbacks = alertCallbacks;
 
-        this.furl = `http://www.dtexplorer.io/fullApi/getblockbynum`
+        // this.furl = `http://www.dtexplorer.io/fullApi/getblockbynum`;
+        this.furl = `http://127.0.0.1:8096/wallet/getblockbynum`;
         
         this.main();
     }
@@ -40,7 +41,7 @@ module.exports = class{
         let url = this.furl ;
         console.log('url:', url);
         await axios.post(this.furl,{num:num}).then((response)=>{
-            console.log('---------esponse', response);
+            console.log('---------esponse', response.data);
         })
         .catch((error)=>{
             // console.log('getTxID error:',error);
