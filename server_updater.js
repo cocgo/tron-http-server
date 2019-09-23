@@ -30,7 +30,7 @@ module.exports = class{
         this.rpc = new RpcClient(config);
         this.alertCallbacks = alertCallbacks;
 
-        this.furl = `http://${config.fullnode.host}:${config.fullnode.port}/getblockbynum?=`
+        this.furl = `http://${config.fullnode.host}:${config.fullnode.port}/getblockbynum?num=`
         
         this.main();
     }
@@ -43,7 +43,8 @@ module.exports = class{
             console.log('---------esponse', response);
         })
         .catch((error)=>{
-            console.log('getTxID error:',error);
+            // console.log('getTxID error:',error);
+            console.log('getTxID error.');
         })
         // let ndata = await axios.get(this.furl+'?num='+num).then(x => {
         //     x.data;
