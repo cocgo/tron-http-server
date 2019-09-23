@@ -38,37 +38,20 @@ module.exports = class{
 
     
     async getTxID(num){
-        // return new Promise((resolve, reject) => {
-        //     let url = this.furl ;
-        //     console.log('url:', url);
-        //     axios.post(this.furl,{num:num}).then((response)=>{
-        //         console.log('---------esponse', (response.data));
-        //         let txID = '';
-        //         if(response.data.transactions){
-        //             txID = response.data.transactions.txID;
-        //         }
-        //         resolve(txID);
-        //     })
-        //     .catch((error)=>{
-        //         // console.log('getTxID error:',error);
-        //         console.log('getTxID error.');
-        //         reject('txID error');
-        //     })
-        // })
-        let url = this.furl ;
-        console.log('url:', url);
-        await axios.post(this.furl,{num:num}).then((response)=>{
-            console.log('---------esponse', (response.data));
-            let txID = '';
-            if(response.data.transactions){
-                txID = response.data.transactions.txID;
-            }
-            return txID;
-        })
-        .catch((error)=>{
-            // console.log('getTxID error:',error);
-            console.log('getTxID error.');
-            return ('txID error');
+        return new Promise((resolve, reject) => {
+            let url = this.furl ;
+            axios.post(this.furl,{num:num}).then((response)=>{
+                let txID = '';
+                if(response.data.transactions){
+                    txID = response.data.transactions.txID;
+                }
+                resolve(txID);
+            })
+            .catch((error)=>{
+                // console.log('get txID error:',error);
+                console.log(url, 'get txID error:', num);
+                reject('txID error');
+            })
         })
     }
 
@@ -101,7 +84,7 @@ module.exports = class{
             let blockParentHash = blockHeader.rawData.parenthash;
             let transactionsList = block.getTransactionsList();
             let txID = await this.getTxID(i);
-            console.log('---3', txID);
+            console.log('---txID', txID);
 
             let newBlock = {
                 block_id : i,
