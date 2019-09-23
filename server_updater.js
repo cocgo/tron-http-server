@@ -41,11 +41,7 @@ module.exports = class{
         return new Promise((resolve, reject) => {
             let url = this.furl ;
             axios.post(this.furl,{num:num}).then((response)=>{
-                let txID = '';
-                if(response.data.transactions){
-                    txID = response.data.transactions.txID;
-                }
-                resolve(txID);
+                resolve(response.data);
             })
             .catch((error)=>{
                 // console.log('get txID error:',error);
@@ -83,9 +79,8 @@ module.exports = class{
             let blockHash = tools.utils.uint8ToBase64(tools.blocks.getBlockHash(block));
             let blockParentHash = blockHeader.rawData.parenthash;
             let transactionsList = block.getTransactionsList();
-            let txID = await this.getTxID(i);
-            console.log('---txID', txID);
-
+            let blockJsonData = await this.getTxID(i);
+            
             let newBlock = {
                 block_id : i,
                 block_hash : blockHash,
@@ -97,6 +92,7 @@ module.exports = class{
 
             if(transactionsList.length > 0){
                 for(let j = 0;j<transactionsList.length;j++){
+                    let txID = '';
                     let transaction = transactionsList[j];
                     let timestamp = parseInt(block.getBlockHeader().getRawData().getTimestamp());
                     let serialized = transaction.serializeBinary();
@@ -104,7 +100,10 @@ module.exports = class{
                     let txsize = serialized.length;
 
                     let contracts = transactionsList[j].getRawData().getContractList();
-
+                    if(blockJsonData.transactions){
+                        txID = blockJsonData.transactions[j].txID;
+                    }
+                    console.log('---txID', txID);
                     for (let c = 0; c < contracts.length; c++) {
                         let contract = contracts[c];
                         let type = contract.getType();
