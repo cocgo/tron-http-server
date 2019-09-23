@@ -31,12 +31,20 @@ module.exports = class{
         this.alertCallbacks = alertCallbacks;
 
         this.furl = `${config.fullnode.host}:${config.fullnode.port}`
-        console.log('furl:', this.furl);
+        
         this.main();
     }
 
     
     async getTxID(num){
+        let url = this.furl + '?num=' + num;
+        console.log('url:', url);
+        await axios.get(url).then((response)=>{
+            console.log('---------esponse', response);
+        })
+        .catch((error)=>{
+            console.log('getTxID error:',error);
+        })
         // let ndata = await axios.get(this.furl+'?num='+num).then(x => {
         //     x.data;
         //     console.log('---1 x',x,xdata);
