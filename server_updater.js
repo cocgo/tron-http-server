@@ -37,7 +37,7 @@ module.exports = class{
     }
 
     
-    getTxID(num){
+    async getTxID(num){
         return new Promise((resolve, reject) => {
             let url = this.furl ;
             console.log('url:', url);
