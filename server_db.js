@@ -179,6 +179,14 @@ module.exports = class {
     async getRelatedAddressCount(address){
         return await this.addWitnessUrlToVoteContracts(await this.addTokenToParticipateContracts(await this.db.collection('contracts').find({$or:[{to_address:{$eq:address}},{owner_address:{$eq:address}}]}).sort({block_id:-1}).count()));
     }
+    async getAddressSend(address){
+        return await this.addWitnessUrlToVoteContracts(await this.addTokenToParticipateContracts(await this.db.collection('contracts').find({owner_address: {$eq: address}}).sort({block_id:-1}).toArray()));
+    }
+    async getAddressReceive(address){
+        return await this.addWitnessUrlToVoteContracts(await this.addTokenToParticipateContracts(await this.db.collection('contracts').find({to_address: {$eq: address}}).sort({block_id:-1}).toArray()));
+    }
+
+    
 
     async insertAccount(a){
         let account = util.cloneObject(a);
