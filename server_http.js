@@ -296,6 +296,12 @@ module.exports = class {
             let limit = req.query.limit || 10;
             res.send(transactions.slice(offset, limit));
         });
+        app.get('/wapi/getAddressAll', async (req, res) => {
+            let transactions = await this.db.getContractsRelatedToThis(req.query.address).catch(x => null);
+            let offset = req.query.offset || 0;
+            let limit = req.query.limit || 10;
+            res.send(transactions.slice(offset, limit));
+        });
 
         app.listen(config.port);
     }
