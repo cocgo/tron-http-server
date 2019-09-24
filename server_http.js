@@ -281,7 +281,7 @@ module.exports = class {
             let allCount = await this.db.getRelatedAddressCount(req.query.address);
             let sendCount = await this.db.getFromThisCount(req.query.address);
             let receiveCount = allCount - sendCount;
-            res.send({allCount:allCount, sendCount:allCount, receiveCount:receiveCount});
+            res.send({allCount:allCount, sendCount:sendCount, receiveCount:receiveCount});
         });
 
         app.listen(config.port);
