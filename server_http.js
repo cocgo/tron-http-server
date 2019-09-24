@@ -275,6 +275,14 @@ module.exports = class {
             res.send(tokens);
         });
 
+        app.get('/wapi/getTranCounts', async (req, res) => {
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Headers", "X-Requested-With");
+            let allCount = await this.db.getRelatedAddressCount(req.query.address);
+            let sendCount = await this.db.getFromThisCount(req.query.address);
+            let receiveCount = allCount - sendCount;
+            res.send({allCount:allCount, sendCount:allCount, receiveCount:receiveCount});
+        });
 
         app.listen(config.port);
     }
