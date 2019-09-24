@@ -294,7 +294,7 @@ module.exports = class {
                 if(limit < 0){
                     break;
                 }
-                trans.push(transactions[i]);
+                trans.push(transactions[index]);
             }
             res.send({trans:trans});
         });
@@ -308,7 +308,7 @@ module.exports = class {
                 if(limit < 0){
                     break;
                 }
-                trans.push(transactions[i]);
+                trans.push(transactions[index]);
             }
             res.send({trans:trans});
         });
@@ -325,7 +325,7 @@ module.exports = class {
                 if(limit < 0){
                     break;
                 }
-                trans.push(transactions[i]);
+                trans.push(transactions[index]);
             }
             res.send({allCount:allCount, sendCount:sendCount, receiveCount:receiveCount, trans:trans});
         });
