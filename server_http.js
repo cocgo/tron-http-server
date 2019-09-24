@@ -284,6 +284,14 @@ module.exports = class {
             let receiveCount = allCount - sendCount;
             res.send({allCount:allCount, sendCount:sendCount, receiveCount:receiveCount, lastTrans:arrAllTrans.slice(0,10)});
         });
+        app.get('/wapi/getAddressSend', async (req, res) => {
+            let transactions = await this.db.getContractsFromThis(req.query.address).catch(x => null);
+            res.send(transactions);
+        });
+        app.get('/wapi/getAddressReceive', async (req, res) => {
+            let transactions = await this.db.getContractsToThis(req.query.address).catch(x => null);
+            res.send(transactions);
+        });
 
         app.listen(config.port);
     }
