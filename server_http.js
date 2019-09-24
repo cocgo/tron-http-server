@@ -276,13 +276,10 @@ module.exports = class {
         });
 
         app.get('/wapi/getTranCounts', async (req, res) => {
-            res.header("Access-Control-Allow-Origin", "*");
-            res.header("Access-Control-Allow-Headers", "X-Requested-With");
-            let arrAllTrans = await this.db.getContractsRelatedToThis(req.query.address);
-            let allCount = arrAllTrans.length;
+            let allCount = await this.db.getRelatedAddressCount(req.query.address);
             let sendCount = await this.db.getFromThisCount(req.query.address);
             let receiveCount = allCount - sendCount;
-            res.send({allCount:allCount, sendCount:sendCount, receiveCount:receiveCount, trans:arrAllTrans.slice(0,10)});
+            res.send({allCount:allCount, sendCount:sendCount, receiveCount:receiveCount});
         });
         app.get('/wapi/getAddressSend', async (req, res) => {
             let transactions = await this.db.getAddressSend(req.query.address).catch(x => null);
