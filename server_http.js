@@ -288,13 +288,13 @@ module.exports = class {
             let transactions = await this.db.getAddressSend(req.query.address).catch(x => null);
             let offset = req.query.offset || 0;
             let limit = req.query.limit || 10;
-            res.send({trans:transactions.slice(offset, limit)});
+            res.send({trans:transactions.slice(offset, offset+limit)});
         });
         app.get('/wapi/getAddressReceive', async (req, res) => {
             let transactions = await this.db.getAddressReceive(req.query.address).catch(x => null);
             let offset = req.query.offset || 0;
             let limit = req.query.limit || 10;
-            res.send({trans:transactions.slice(offset, limit)});
+            res.send({trans:transactions.slice(offset, offset+limit)});
         });
         app.get('/wapi/getAddressAll', async (req, res) => {
             let transactions = await this.db.getContractsRelatedToThis(req.query.address).catch(x => null);
@@ -303,7 +303,7 @@ module.exports = class {
             let allCount = transactions.length;
             let sendCount = await this.db.getFromThisCount(req.query.address);
             let receiveCount = allCount - sendCount;
-            res.send({allCount:allCount, sendCount:sendCount, receiveCount:receiveCount, trans:transactions.slice(offset, limit)});
+            res.send({allCount:allCount, sendCount:sendCount, receiveCount:receiveCount, trans:transactions.slice(offset, offset+limit)});
         });
 
         app.listen(config.port);
