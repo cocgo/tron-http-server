@@ -102,7 +102,7 @@ module.exports = class{
                     if(blockJsonData.transactions){
                         txID = blockJsonData.transactions[j].txID;
                     }
-                    console.log('---txID', txID, 'In Height:', i);
+                    console.log('---txID', txID, ' In Height:', i);
                     for (let c = 0; c < contracts.length; c++) {
                         let contract = contracts[c];
                         let type = contract.getType();
