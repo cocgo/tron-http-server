@@ -288,13 +288,29 @@ module.exports = class {
             let transactions = await this.db.getAddressSend(req.query.address).catch(x => null);
             let offset = req.query.offset || 0;
             let limit = req.query.limit || 10;
-            res.send({trans:transactions.slice(offset, offset+limit)});
+            let trans = []
+            for (let index = offset; index < transactions.length; index++) {
+                limit -= 1;
+                if(limit < 0){
+                    break;
+                }
+                trans.push(transactions[i]);
+            }
+            res.send({trans:trans});
         });
         app.get('/wapi/getAddressReceive', async (req, res) => {
             let transactions = await this.db.getAddressReceive(req.query.address).catch(x => null);
             let offset = req.query.offset || 0;
             let limit = req.query.limit || 10;
-            res.send({trans:transactions.slice(offset, offset+limit)});
+            let trans = []
+            for (let index = offset; index < transactions.length; index++) {
+                limit -= 1;
+                if(limit < 0){
+                    break;
+                }
+                trans.push(transactions[i]);
+            }
+            res.send({trans:trans});
         });
         app.get('/wapi/getAddressAll', async (req, res) => {
             let transactions = await this.db.getContractsRelatedToThis(req.query.address).catch(x => null);
@@ -303,7 +319,15 @@ module.exports = class {
             let allCount = transactions.length;
             let sendCount = await this.db.getFromThisCount(req.query.address);
             let receiveCount = allCount - sendCount;
-            res.send({allCount:allCount, sendCount:sendCount, receiveCount:receiveCount, trans:transactions.slice(offset, offset+limit)});
+            let trans = []
+            for (let index = offset; index < transactions.length; index++) {
+                limit -= 1;
+                if(limit < 0){
+                    break;
+                }
+                trans.push(transactions[i]);
+            }
+            res.send({allCount:allCount, sendCount:sendCount, receiveCount:receiveCount, trans:trans});
         });
 
         app.listen(config.port);
