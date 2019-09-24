@@ -286,11 +286,15 @@ module.exports = class {
         });
         app.get('/wapi/getAddressSend', async (req, res) => {
             let transactions = await this.db.getAddressSend(req.query.address).catch(x => null);
-            res.send(transactions);
+            let offset = req.query.offset || 0;
+            let limit = req.query.limit || 10;
+            res.send(transactions.slice(offset, limit));
         });
         app.get('/wapi/getAddressReceive', async (req, res) => {
             let transactions = await this.db.getAddressReceive(req.query.address).catch(x => null);
-            res.send(transactions);
+            let offset = req.query.offset || 0;
+            let limit = req.query.limit || 10;
+            res.send(transactions.slice(offset, limit));
         });
 
         app.listen(config.port);
