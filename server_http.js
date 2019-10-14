@@ -261,7 +261,7 @@ module.exports = class {
             }
             startId = startId || 0;
             endId = endId || transactions.length;
-            if(endId < transactions.length){
+            if(endId > transactions.length){
                 endId = transactions.length;
             }
             let arrTrans = []; 
