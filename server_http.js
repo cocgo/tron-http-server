@@ -251,23 +251,37 @@ module.exports = class {
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Headers", "X-Requested-With");
             let transactions = await this.db.getContractsRelatedToThis(req.query.address).catch(x => null);
-            if (req.query.start) {
-                let start = parseInt(req.query.start);
-                for (let i = transactions.length - 1; i >= 0; i--) {
-                    if (parseInt(transactions[i].timestamp) < start) {
-                        transactions.splice(i, 1);
-                    }
+            let startId = req.query.start;
+            let endId = req.query.end;
+            if(startId){
+                startId = parseInt(startId);
+            }
+            if(endId){
+                endId = parseInt(endId);
+            }
+            startId = startId || 0;
+            endId = endId || transactions.length;
+            let arrTrans = []; 
+            for (let index = startId; index < endId; index++) {
+                arrTrans.push(transactions[index]);
+            }
+            // if (req.query.start) {
+            //     let start = parseInt(req.query.start);
+            //     for (let i = transactions.length - 1; i >= 0; i--) {
+            //         if (parseInt(transactions[i].timestamp) < start) {
+            //             transactions.splice(i, 1);
+            //         }
 
-                }
-            }
-            if (req.query.end) {
-                let end = parseInt(req.query.end);
-                for (let i = transactions.length - 1; i >= 0; i--) {
-                    if (transactions[i].timestamp > end)
-                        transactions.splice(i, 1);
-                }
-            }
-            res.send(transactions);
+            //     }
+            // }
+            // if (req.query.end) {
+            //     let end = parseInt(req.query.end);
+            //     for (let i = transactions.length - 1; i >= 0; i--) {
+            //         if (transactions[i].timestamp > end)
+            //             transactions.splice(i, 1);
+            //     }
+            // }
+            res.send(arrTrans);
         });
 
         app.get('/wapi/getTokens', async (req, res) => {
